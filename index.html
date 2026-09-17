@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Launcher — Скачать</title>
+    
+    <!-- ИКОНКА ВКЛАДКИ -->
+    <link rel="icon" type="image/jpeg" href="icon.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="icon.jpg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0D0D1A;
+            color: #FFFFFF;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .bg-animation .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.05) 0%, transparent 70%);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .bg-animation .circle:nth-child(1) {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+        
+        .bg-animation .circle:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            animation-delay: -5s;
+        }
+        
+        .bg-animation .circle:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0 30px;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 30px rgba(108, 99, 255, 0.3);
+            object-fit: cover;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .logo-text {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6C63FF 0%, #9D94FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-text span {
+            -webkit-text-fill-color: #FFFFFF;
+            background: none;
+        }
+        
+        .subtitle {
+            font-size: 18px;
+            color: #8888AA;
+            margin-top: 5px;
+        }
+        
+        .card {
+            background: #1A1A2E;
+            border-radius: 16px;
+            border: 2px solid #2D2D44;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: #6C63FF;
+            box-shadow: 0 0 30px rgba(108, 99, 255, 0.1);
+        }
+        
+        .card-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card-title .emoji {
+            font-size: 28px;
+        }
+        
+        .card-text {
+            color: #AAAAAA;
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 10px;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            background: #2D2D44;
+            border: 2px solid #3D3D5E;
+            border-radius: 12px;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            border-color: #6C63FF;
+            background: #3D3D5E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(108, 99, 255, 0.3);
+        }
+        
+        .download-btn.primary {
+            background: #6C63FF;
+            border-color: #6C63FF;
+        }
+        
+        .download-btn.primary:hover {
+            background: #5A52D5;
+            border-color: #5A52D5;
+        }
+        
+        .download-btn .icon {
+            font-size: 24px;
+        }
+        
+        .download-btn .size {
+            font-size: 12px;
+            color: #8888AA;
+            font-weight: 400;
+        }
+        
+        .download-btn.primary .size {
+            color: #DDDDFF;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #1A1A2E;
+            border-radius: 10px;
+            border: 1px solid #2D2D44;
+        }
+        
+        .feature-item .icon {
+            font-size: 24px;
+        }
+        
+        .feature-item .text {
+            font-size: 14px;
+            color: #CCCCDD;
+        }
+        
+        .feature-item .text strong {
+            color: #FFFFFF;
+        }
+        
+        .requirements {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        @media (max-width: 500px) {
+            .requirements {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: #1A1A2E;
+            border-radius: 8px;
+            border: 1px solid #2D2D44;
+            font-size: 14px;
+            color: #AAAAAA;
+        }
+        
+        .requirement-item .check {
+            color: #6C63FF;
+            font-weight: 700;
+        }
+        
+        .version-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            background: #1A1A2E;
+            border-radius: 10px;
+            border: 1px solid #2D2D44;
+        }
+        
+        .version-info .label {
+            color: #8888AA;
+            font-size: 13px;
+        }
+        
+        .version-info .value {
+            font-weight: 600;
+            font-size: 15px;
+            color: #FFFFFF;
+        }
+        
+        .version-info .badge {
+            background: #6C63FF;
+            color: #FFFFFF;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px 0 10px;
+            color: #555566;
+            font-size: 14px;
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .fade-in:nth-child(2) { animation-delay: 0.15s; }
+        .fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in:nth-child(4) { animation-delay: 0.45s; }
+        .fade-in:nth-child(5) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Стили для инструкции */
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 0;
+        }
+        
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 10px 15px;
+            background: #1A1A2E;
+            border-radius: 10px;
+            border: 1px solid #2D2D44;
+            transition: all 0.3s ease;
+        }
+        
+        .step-item:hover {
+            border-color: #6C63FF;
+            background: #1A1A3E;
+        }
+        
+        .step-number {
+            background: #6C63FF;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            color: #CCCCDD;
+            font-size: 15px;
+            padding-top: 4px;
+            line-height: 1.4;
+        }
+        
+        .step-text .highlight {
+            color: #6C63FF;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+    
+    <div class="container">
+        <header class="header fade-in">
+            <div class="logo">
+                <img src="icon.jpg" alt="Nexus Launcher" class="logo-icon">
+                <span class="logo-text">Nexus<span>Launcher</span></span>
+            </div>
+            <p class="subtitle">⚡ Быстрый и удобный лаунчер для Minecraft</p>
+        </header>
+        
+        <!-- СЕКЦИЯ СКАЧИВАНИЯ -->
+        <div class="card fade-in">
+            <div class="card-title">
+                <span class="emoji">⬇️</span>
+                Скачать
+            </div>
+            <p class="card-text">
+                Скачайте установщик и установите Nexus Launcher за пару минут.
+            </p>
+            <div class="download-grid">
+                <!-- УСТАНОВЩИК - ЗАМЕНИТЕ ССЫЛКУ -->
+                <a href="https://drive.google.com/file/d/1gR0VUiu3wYw4psZDT8vV42piLfm2jC-c/view?usp=sharing" class="download-btn primary">
+                    <span class="icon">📦</span>
+                    <div>
+                        <div>Скачать установщик</div>
+                        <div class="size">Nexus_Launcher_Setup_v2.0.exe • 26 MB</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- ВОЗМОЖНОСТИ -->
+        <div class="card fade-in">
+            <div class="card-title">
+                <span class="emoji">🚀</span>
+                Возможности
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="icon">⚡</span>
+                    <span class="text">Быстрый запуск <strong>Minecraft 1.21.4</strong></span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🎨</span>
+                    <span class="text">Поддержка <strong>Ely.by</strong> скинов</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">💾</span>
+                    <span class="text">Настройка <strong>RAM</strong> и потоков</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🛡️</span>
+                    <span class="text">Автоматическая установка <strong>Fabric</strong></span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">🎮</span>
+                    <span class="text"><strong>Discord</strong> Rich Presence</span>
+                </div>
+                <div class="feature-item">
+                    <span class="icon">📂</span>
+                    <span class="text">Быстрый доступ к папке <strong>.minecraft</strong></span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ИНФОРМАЦИЯ -->
+        <div class="card fade-in">
+            <div class="card-title">
+                <span class="emoji">ℹ️</span>
+                Информация
+            </div>
+            <div class="version-info">
+                <span class="label">Версия лаунчера</span>
+                <span class="value">2.0</span>
+                <span class="badge">Стабильная</span>
+                <span style="color: #555566; margin-left: auto;">Обновлено: 05.09.2026</span>
+            </div>
+            <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px;">
+                <span style="background: #2D2D44; padding: 4px 14px; border-radius: 20px; font-size: 13px; color: #AAAAAA;">✅ Fabric 0.19.3</span>
+                <span style="background: #2D2D44; padding: 4px 14px; border-radius: 20px; font-size: 13px; color: #AAAAAA;">✅ Java 17+</span>
+                <span style="background: #2D2D44; padding: 4px 14px; border-radius: 20px; font-size: 13px; color: #AAAAAA;">✅ Windows 10/11</span>
+            </div>
+        </div>
+        
+        <!-- ТРЕБОВАНИЯ -->
+        <div class="card fade-in">
+            <div class="card-title">
+                <span class="emoji">⚙️</span>
+                Системные требования
+            </div>
+            <div class="requirements">
+                <div class="requirement-item">
+                    <span class="check">✔</span>
+                    <span>Windows 10 / 11 (64-bit)</span>
+                </div>
+                <div class="requirement-item">
+                    <span class="check">✔</span>
+                    <span>Java 17 или новее</span>
+                </div>
+                <div class="requirement-item">
+                    <span class="check">✔</span>
+                    <span>2 GB RAM (рекомендуется 4+ GB)</span>
+                </div>
+                <div class="requirement-item">
+                    <span class="check">✔</span>
+                    <span>500 MB свободного места</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ИНСТРУКЦИЯ -->
+        <div class="card fade-in">
+            <div class="card-title">
+                <span class="emoji">📖</span>
+                Как установить
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Скачайте установщик и запустите его</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Следуйте инструкциям на экране</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Запустите <span class="highlight">Nexus Launcher</span> и введите никнейм</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Нажмите <span class="highlight">«ИГРАТЬ»</span> и наслаждайтесь! 🎮</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ФУТЕР -->
+        <footer class="footer">
+            <p>© 2026 Nexus Launcher — Сделано с ❤️ для Minecraft</p>
+            <p style="margin-top: 5px; font-size: 12px;">Независимый проект, не связан с Mojang Studios</p>
+        </footer>
+    </div>
+</body>
+</html>
